@@ -97,7 +97,31 @@ class SortingRobot:
         Sort the robot's list.
         """
         # Fill this out
-        pass
+        while not self.light_is_on():
+            # first time through, switch empty hand with first value in array
+            self.swap_item()
+            # print('list,inside: ', self._list, self._item)
+            while self.can_move_right():
+                # this loop will move all values to the right
+                # until the smallest value is in hand
+                # [5, 4, 1, 2, 3] = [None, 5, 4, 2, 3], and 1 in hand
+                self.move_right()
+                if self.compare_item() > 0:
+                    # IF item in hand is larger:
+                    # THEN take the smaller value from list, and leave the larger one
+                    self.swap_item()
+            # AFTER robot has moved to the end of the list (far right side:
+            # iterate LEFT until robot finds the None value in list
+            while self.compare_item() is not None:
+                self.move_left()
+            self.swap_item()  # swap smallest value with None (now in hand)
+            # array (from above) is now [1, 5, 4, 2, 3], and None in hand
+            if self.can_move_right():
+                self.move_right()  # moves over to next
+            else:
+                self.set_light_on()
+
+
 
 
 if __name__ == "__main__":
